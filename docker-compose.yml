@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:15
+    volumes:
+      - ./tmp/db:/var/lib/postgresql@15/data
+    working_dir: /api
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DATABASE: app_development
+      POSTGRES_HOST: db
+    ports:
+      - 5433:5432
+  api:
+    build: api
+    image: ruby:3.3.6-bullseye
+    command: bash -c "bundle exec rails s -p 3000 -b '0.0.0.0'"
+    ports:
+      - "3002:3000"
+    working_dir: /api
+    volumes:
+      - ./api:/api
+    depends_on:
+      - db
+  client:
+    build: client
+    image: node:18.8.0-bullseye
+    command: sh -c "npm install && npm start"
+    ports:
+      - "3000:3000"
+    working_dir: /client
+    volumes:
+      - ./client:/client
