@@ -24,7 +24,7 @@ services:
       - db
   migration:
     image: ruby:3.3.6-bullseye
-    command: bash -c "bundle exec rails db:create db:migrate db:seed"
+    command: bash -c "bundle exec rails db:create db:migrate db:seed && bundle exec rails db:create db:migrate db:seed RAILS_ENV=test"
     working_dir: /api
     depends_on:
       - db
