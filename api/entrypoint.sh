@@ -4,6 +4,8 @@ set -e
 # Remove a potentially pre-existing server.pid for Rails.
 rm -f /myApp/tmp/pids/server.pid
 
+bundle install
+
 rake db:create
 rake db:seed
 rake db:migrate

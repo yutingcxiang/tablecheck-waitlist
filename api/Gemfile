@@ -38,6 +38,19 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # Rspec
+  gem "rspec-rails", "~> 7.1.0"
+  gem "rspec-core", "~> 3.13.2"
+  gem "rspec-expectations", "~> 3.13.3"
+  gem "rspec-mocks", "~> 3.13.2"
+  gem "rspec-support", "~>3.13.1"
+  gem "diff-lcs", "~> 1.5.1"
+
+  gem 'pry', '~> 0.14.2'
 end
 
-
+group :test do
+  gem "database_cleaner"
+  gem 'database_cleaner-active_record'
+end
