@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/node": "^16.7.13",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -16,13 +17,14 @@
     "test": "react-scripts test --watchAll=false",
     "test:watch": "react-scripts test ",
     "lint": "eslint .",
+    "format": "prettier --write .",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest",
-      "prettier" 
+      "prettier"
     ]
   },
   "browserslist": {
