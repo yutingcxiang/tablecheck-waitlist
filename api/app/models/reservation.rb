@@ -1,6 +1,7 @@
 require 'pry'
 class Reservation < ApplicationRecord
     after_initialize :add_to_queue
+    after_destroy :remove_from_queue
     before_save :get_position
 
     MAX_CAPACITY = 10

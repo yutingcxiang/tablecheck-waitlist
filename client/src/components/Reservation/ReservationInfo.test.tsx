@@ -9,7 +9,6 @@ const mockReservation = {
   position: 2,
 };
 
-
 let mockShowReservation = Promise.resolve(mockReservation);
 jest.mock('../../api/showReservation', () => ({
   showReservation: () => mockShowReservation,
@@ -28,6 +27,14 @@ describe('ReservationInfo', () => {
       expect(await screen.findByText('Name: 4 Guys')).toBeInTheDocument();
       expect(await screen.findByText('Party Size: 4')).toBeInTheDocument();
       expect(await screen.findByText('Position: 2')).toBeInTheDocument();
+    });
+
+    test('renders check-in button', async () => {
+      render(<ReservationInfo id={reservationId} />);
+
+      expect(
+        await screen.findByRole('button', { name: 'Check In' }),
+      ).toBeInTheDocument();
     });
   });
 

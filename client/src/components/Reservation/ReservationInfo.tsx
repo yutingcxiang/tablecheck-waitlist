@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { showReservation } from '../../api/showReservation';
 import { Reservation } from '../../types/common-types';
+import CheckInButton from '../CheckIn/CheckInButton';
 
 type ReservationInfoProps = {
   id?: number;
@@ -37,6 +38,9 @@ export function ReservationInfo({ id }: ReservationInfoProps) {
         </div>
         <div className="reservation-position">
           Position: {reservation.position ?? 'N/A'}
+        </div>
+        <div>
+          <CheckInButton reservation={reservation} />
         </div>
       </div>
     );
