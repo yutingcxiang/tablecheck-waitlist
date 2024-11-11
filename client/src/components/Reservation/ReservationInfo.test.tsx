@@ -28,14 +28,6 @@ describe('ReservationInfo', () => {
       expect(await screen.findByText('Party Size: 4')).toBeInTheDocument();
       expect(await screen.findByText('Position: 2')).toBeInTheDocument();
     });
-
-    test('renders check-in button', async () => {
-      render(<ReservationInfo id={reservationId} />);
-
-      expect(
-        await screen.findByRole('button', { name: 'Check In' }),
-      ).toBeInTheDocument();
-    });
   });
 
   describe('when the reservation is not found', () => {

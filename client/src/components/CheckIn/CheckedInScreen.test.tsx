@@ -5,7 +5,7 @@ describe('CheckedInScreen', () => {
   test('renders restaurant description', () => {
     render(<CheckedInScreen />);
 
-    expect(screen.getByText('Successfully Checked In!')).toBeInTheDocument();
+    expect(screen.getByText('Successfully Checked In')).toBeInTheDocument();
   });
 
   test('renders form instructions', () => {

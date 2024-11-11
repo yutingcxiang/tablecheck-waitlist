@@ -4,15 +4,23 @@ import { Reservation } from '../../types/common-types';
 
 type CheckInButtonProps = {
   reservation: Reservation;
+  handleCheckIn: () => void;
 };
 
-export function CheckInButton({ reservation }: CheckInButtonProps) {
+export function CheckInButton({
+  reservation,
+  handleCheckIn,
+}: CheckInButtonProps) {
   const [isEnabled, setIsEnabled] = useState(false);
 
   const handleOnClick = async () => {
-    deleteReservation({
+    const request = await deleteReservation({
       id: reservation.id,
     });
+
+    if (request) {
+      handleCheckIn();
+    }
   };
 
   useEffect(() => {

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { showReservation } from '../../api/showReservation';
 import { Reservation } from '../../types/common-types';
-import CheckInButton from '../CheckIn/CheckInButton';
 
 type ReservationInfoProps = {
   id?: number;
@@ -30,7 +29,7 @@ export function ReservationInfo({ id }: ReservationInfoProps) {
     reservation: Reservation;
   }) => {
     return (
-      <div className="reservation-info">
+      <div className="reservation-info" data-testid="reservation-info">
         <h3>Reservation Details:</h3>
         <div className="reservation-name">Name: {reservation.name ?? ''}</div>
         <div className="reservation-party-size">
@@ -39,9 +38,7 @@ export function ReservationInfo({ id }: ReservationInfoProps) {
         <div className="reservation-position">
           Position: {reservation.position ?? 'N/A'}
         </div>
-        <div>
-          <CheckInButton reservation={reservation} />
-        </div>
+      
       </div>
     );
   };
@@ -54,10 +51,16 @@ export function ReservationInfo({ id }: ReservationInfoProps) {
     );
   };
 
-  return data && data.id ? (
-    <ReservationDetails reservation={data} />
-  ) : (
-    <ReservationMissing />
+  return (
+    <div
+      className="reservation-info-section"
+      data-testid="reservation-info-section">
+      {data && data.id ? (
+        <ReservationDetails reservation={data} />
+      ) : (
+        <ReservationMissing />
+      )}
+    </div>
   );
 }
 

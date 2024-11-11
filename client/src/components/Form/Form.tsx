@@ -37,47 +37,52 @@ export function Form({ setReservationInfo }: FormProps) {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="waitlist-form"
-      data-testid="waitlist-form">
-      <div>
-        <label htmlFor="name">Name:</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          aria-label="Name"
-          value={name}
-          onChange={handleNameChange}
-          required
-        />
+    <div>
+      <div className="description">
+        Please enter your info below to join our waitlist.
       </div>
+      <form
+        onSubmit={handleSubmit}
+        className="waitlist-form"
+        data-testid="waitlist-form">
+        <div>
+          <label htmlFor="name">Name: </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            aria-label="Name"
+            value={name}
+            onChange={handleNameChange}
+            required
+          />
+        </div>
 
-      <div>
-        <label htmlFor="name">Party Size:</label>
-        <input
-          type="number"
-          id="party-size"
-          name="party-size"
-          aria-label="Party Size"
-          min="1"
-          max="10"
-          value={partySize || ''}
-          onChange={handlePartySizeChange}
-          required
-        />
-      </div>
+        <div>
+          <label htmlFor="name">Party Size: </label>
+          <input
+            type="number"
+            id="party-size"
+            name="party-size"
+            aria-label="Party Size"
+            min="1"
+            max="10"
+            value={partySize || ''}
+            onChange={handlePartySizeChange}
+            required
+          />
+        </div>
 
-      <div>
-        <button
-          type="submit"
-          aria-label="Join Waitlist"
-          data-testid="join-waitlist-button">
-          Join WaitList
-        </button>
-      </div>
-    </form>
+        <div>
+          <button
+            type="submit"
+            aria-label="Join Waitlist"
+            data-testid="join-waitlist-button">
+            Join WaitList
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }
 

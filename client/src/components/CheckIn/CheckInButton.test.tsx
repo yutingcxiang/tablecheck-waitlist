@@ -15,13 +15,20 @@ const mockReadyReservation = {
   position: 1,
 };
 
+const mockHandleCheckIn = jest.fn();
+
 jest.mock('../../api/deleteReservation', () => ({
   deleteReservation: jest.fn(),
 }));
 
 describe('CheckInButton', () => {
   test('renders a Check In button', () => {
-    render(<CheckInButton reservation={mockReservation} />);
+    render(
+      <CheckInButton
+        reservation={mockReservation}
+        handleCheckIn={mockHandleCheckIn}
+      />,
+    );
 
     expect(
       screen.getByRole('button', { name: 'Check In' }),
@@ -29,7 +36,12 @@ describe('CheckInButton', () => {
   });
 
   test('is disabled when position is not 1', () => {
-    render(<CheckInButton reservation={mockReservation} />);
+    render(
+      <CheckInButton
+        reservation={mockReservation}
+        handleCheckIn={mockHandleCheckIn}
+      />,
+    );
 
     expect(screen.getByRole('button', { name: 'Check In' })).toHaveAttribute(
       'disabled',
@@ -37,7 +49,12 @@ describe('CheckInButton', () => {
   });
 
   test('is not disabled when position is 1', () => {
-    render(<CheckInButton reservation={mockReadyReservation} />);
+    render(
+      <CheckInButton
+        reservation={mockReadyReservation}
+        handleCheckIn={mockHandleCheckIn}
+      />,
+    );
 
     expect(
       screen.getByRole('button', { name: 'Check In' }),
@@ -45,7 +62,12 @@ describe('CheckInButton', () => {
   });
 
   test('handles onClick', async () => {
-    render(<CheckInButton reservation={mockReadyReservation} />);
+    render(
+      <CheckInButton
+        reservation={mockReadyReservation}
+        handleCheckIn={mockHandleCheckIn}
+      />,
+    );
 
     const button = screen.getByRole('button', { name: 'Check In' });
     await userEvent.click(button);

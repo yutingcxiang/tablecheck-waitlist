@@ -13,6 +13,14 @@ jest.mock('../../api/createReservation', () => ({
 }));
 
 describe('Form', () => {
+  test('renders form instructions', () => {
+    render(<Form setReservationInfo={mockSetReservationInfo} />);
+
+    expect(
+      screen.getByText('Please enter your info below to join our waitlist.'),
+    ).toBeInTheDocument();
+  });
+
   test('renders restaurant waitlist form', () => {
     render(<Form setReservationInfo={mockSetReservationInfo} />);
 
@@ -85,7 +93,7 @@ describe('Form', () => {
           name,
           party_size: parseInt(size),
         });
-      })
+      });
     });
   });
 });
