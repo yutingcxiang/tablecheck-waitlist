@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_10_123718) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_11_045259) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,5 +19,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_10_123718) do
     t.integer "party_size", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "position"
   end
 end

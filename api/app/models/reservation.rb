@@ -1,6 +1,7 @@
 require 'pry'
 class Reservation < ApplicationRecord
     after_initialize :add_to_queue
+    before_save :get_position
 
     MAX_CAPACITY = 10
     MIN_CAPACITY = 0
@@ -23,12 +24,8 @@ class Reservation < ApplicationRecord
         @position = -1
     end
 
-    def can_be_seated?
-        self.party_size <= @@AVAILABLE_SEATS
-    end
-
-    def position
-        @position
+    def get_position
+        self.position = @position || -1
     end
 
     def self.available_seats

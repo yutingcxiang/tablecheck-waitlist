@@ -35,6 +35,9 @@ export function ReservationInfo({ id }: ReservationInfoProps) {
         <div className="reservation-party-size">
           Party Size: {reservation.party_size ?? 0}
         </div>
+        <div className="reservation-position">
+          Position: {reservation.position ?? 'N/A'}
+        </div>
       </div>
     );
   };

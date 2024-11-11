@@ -8,6 +8,7 @@ const mockReservation = {
   id: 4,
   name: "4 Guys",
   party_size: 4,
+  position: 5,
 }
 
 describe('showReservation', () => {

@@ -30,7 +30,6 @@ RSpec.describe Reservation, type: :model do
     end
   end
 
-
   context "party size" do
     it "is not valid without a party_size" do
       subject.party_size = nil
@@ -48,11 +47,7 @@ RSpec.describe Reservation, type: :model do
     end
   end
 
-  it "returns the correct capacity" do
-    expect(subject.can_be_seated?).to eq(true)
-  end
-
   it "returns the correct position" do
-    expect(subject.position).to eq(1)
+    expect(subject.get_position).to eq(1)
   end
 end

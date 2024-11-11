@@ -6,6 +6,7 @@ const mockReservation = {
   id: 4,
   name: '4 Guys',
   party_size: 4,
+  position: 2,
 };
 
 
@@ -26,6 +27,7 @@ describe('ReservationInfo', () => {
       ).toBeInTheDocument();
       expect(await screen.findByText('Name: 4 Guys')).toBeInTheDocument();
       expect(await screen.findByText('Party Size: 4')).toBeInTheDocument();
+      expect(await screen.findByText('Position: 2')).toBeInTheDocument();
     });
   });
 
