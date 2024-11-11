@@ -8,10 +8,10 @@ type FormProps = {
 
 export function Form({ setReservationInfo }: FormProps) {
   const [name, setName] = useState('');
-  const [partySize, setPartySize] = useState(0);
+  const [partySize, setPartySize] = useState('');
 
   const handlePartySizeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPartySize(e.target.value === '' ? 0 : parseInt(e.target.value));
+    setPartySize(e.target.value);
   };
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,7 +23,7 @@ export function Form({ setReservationInfo }: FormProps) {
 
     const reservation = await createReservation({
       name,
-      party_size: partySize,
+      party_size: parseInt(partySize),
     });
     if (reservation) {
       setReservationInfo(reservation);
@@ -33,7 +33,7 @@ export function Form({ setReservationInfo }: FormProps) {
 
   const clearForm = () => {
     setName('');
-    setPartySize(0);
+    setPartySize('');
   };
 
   return (
@@ -63,7 +63,7 @@ export function Form({ setReservationInfo }: FormProps) {
           aria-label="Party Size"
           min="1"
           max="10"
-          value={partySize}
+          value={partySize || ''}
           onChange={handlePartySizeChange}
           required
         />
