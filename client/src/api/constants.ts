@@ -1,4 +1,4 @@
-export const API_URL = '/api/v1/reservations';
+export const API_URL = 'http://localhost:3002/api/v1/reservations';
 
 export const API_HEADERS = { 'Content-Type': 'application/json' };
 
