@@ -1,39 +1,24 @@
 require 'pry'
 class Reservation < ApplicationRecord
-    after_initialize :add_to_queue
-    after_destroy :remove_from_queue
-    before_save :get_position
+    before_save :set_position
+    before_destroy :update_positions
 
     MAX_CAPACITY = 10
     MIN_CAPACITY = 0
-    SERVICE_TIME_PER_PERSON = 3.seconds
-    @@WAITLIST = []
-    @@AVAILABLE_SEATS = 10
+    STARTING_POSITION = 0
 
     validates_presence_of :name, allow_empty: false
     validates :party_size, numericality: { less_than_or_equal_to: MAX_CAPACITY, greater_than: MIN_CAPACITY,  only_integer: true }
 
-    def add_to_queue
-        @@WAITLIST << self
-        @@AVAILABLE_SEATS -= self.party_size
-        @position = @@WAITLIST.length
+    def set_position 
+       self.position ||= Reservation.count
     end
 
-    def remove_from_queue
-        @@WAITLIST.pop
-        @@AVAILABLE_SEATS += self.party_size if self.party_size
-        @position = -1
-    end
-
-    def get_position
-        self.position = @position || -1
-    end
-
-    def self.available_seats
-        @@AVAILABLE_SEATS
-    end
-
-    def self.waitlist
-        @@WAITLIST
+    def update_positions
+        reservations = Reservation.where("position > ?", self.position)
+        reservations.each do |reservation|
+            reservation.position -= 1
+            reservation.save
+        end
     end
 end

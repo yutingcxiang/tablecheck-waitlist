@@ -24,7 +24,7 @@ describe('deleteReservation', () => {
     deleteReservation(params);
 
     expect(fetch).toHaveBeenCalled();
-    expect(fetch).toHaveBeenCalledWith(API_URL, {
+    expect(fetch).toHaveBeenCalledWith(`${API_URL}/${mockReservation.id}`, {
       body: JSON.stringify(params),
       headers: API_HEADERS,
       method: 'DELETE',

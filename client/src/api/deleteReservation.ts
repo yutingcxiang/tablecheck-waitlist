@@ -4,8 +4,9 @@ import { API_HEADERS, API_URL, DEFAULT_ERROR_MESSAGE } from './constants';
 export type ReservationDeleteParams = Pick<Reservation, 'id'>;
 
 export const deleteReservation = async (params: ReservationDeleteParams) => {
+  const { id } = params;
   try {
-    const response = await fetch(API_URL, {
+    const response = await fetch(`${API_URL}/${id}`, {
       method: 'DELETE',
       headers: API_HEADERS,
       body: JSON.stringify(params),

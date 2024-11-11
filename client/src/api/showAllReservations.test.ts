@@ -1,27 +1,31 @@
 import { API_HEADERS, API_URL, DEFAULT_ERROR_MESSAGE } from './constants';
-import { editReservation } from './editReservation';
+import { showAllReservations } from './showAllReservations';
 
-const params = { name: 'Ryan', party_size: 2, id: 5 };
-const invalidParams = { name: 'Ryan', party_size: 13, id: 5 };
-const errorMessage = 'Invalid party size';
+const params = { id: 4 };
+const errorMessage = 'Error';
+const mockReservation = {
+  id: 4,
+  name: "4 Guys",
+  party_size: 4,
+  position: 5,
+}
 
-describe('editReservation', () => {
+describe('showAllReservations', () => {
   test('should fetch the reservation', () => {
     jest
       .spyOn(global, 'fetch')
       .mockImplementation(
         jest.fn(() =>
-          Promise.resolve({ json: () => Promise.resolve({ data: params }) }),
+          Promise.resolve({ json: () => Promise.resolve({ data: mockReservation }) }),
         ) as jest.Mock,
       );
 
-    editReservation(params);
+    showAllReservations();
 
     expect(fetch).toHaveBeenCalled();
-    expect(fetch).toHaveBeenCalledWith(`${API_URL}/${params.id}`, {
-      body: JSON.stringify(params),
+    expect(fetch).toHaveBeenCalledWith(API_URL, {
       headers: API_HEADERS,
-      method: 'PUT',
+      method: 'GET',
     });
   });
 
@@ -30,14 +34,14 @@ describe('editReservation', () => {
       .spyOn(global, 'fetch')
       .mockImplementation(
         jest.fn(() =>
-          Promise.resolve({ json: () => Promise.resolve({ data: params }) }),
+          Promise.resolve({ json: () => Promise.resolve({ data: mockReservation }) }),
         ) as jest.Mock,
       );
 
-    const result = await editReservation(params);
+    const result = await showAllReservations();
 
     expect(result).toEqual({
-      data: params,
+      data: mockReservation,
     });
   });
 
@@ -51,7 +55,7 @@ describe('editReservation', () => {
     );
 
     await expect(async () => {
-      await editReservation(invalidParams);
+      await showAllReservations();
     }).rejects.toThrow(DEFAULT_ERROR_MESSAGE);
   });
 });

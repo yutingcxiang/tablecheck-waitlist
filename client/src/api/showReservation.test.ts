@@ -13,7 +13,7 @@ const mockReservation = {
 
 describe('showReservation', () => {
   test('should fetch the reservation', () => {
-    const URL = `${API_URL}?id=${params.id}`;
+    const URL = `${API_URL}/${params.id}`;
 
     jest
       .spyOn(global, 'fetch')

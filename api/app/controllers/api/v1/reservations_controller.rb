@@ -1,4 +1,9 @@
 class Api::V1::ReservationsController < ApplicationController
+  def index 
+    reservations = Reservation.all
+    render json: reservations
+  end
+
   def create
     reservation = Reservation.build(reservation_params)
     if reservation.save
@@ -37,6 +42,6 @@ class Api::V1::ReservationsController < ApplicationController
   end
 
   def reservation_params
-    params.permit(:name, :party_size, :id)
+    params.permit(:name, :party_size, :position, :id)
   end
 end

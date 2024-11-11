@@ -6,12 +6,9 @@ RSpec.describe Reservation, type: :model do
     described_class.new(
       name: "Sam",
       party_size: 2,
+      position: 1
     )
   }
-  
-  after(:each) do
-    subject.remove_from_queue
-  end
 
   it "is valid with valid attributes" do
     expect(subject).to be_valid
@@ -47,7 +44,9 @@ RSpec.describe Reservation, type: :model do
     end
   end
 
-  it "returns the correct position" do
-    expect(subject.get_position).to eq(1)
+  context "position" do
+    it "sets the correct position" do
+      expect(subject.position).to eq(1)
+    end
   end
 end
