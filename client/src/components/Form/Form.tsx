@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import { createReservation } from '../../api/createReservation';
+import { Reservation } from '../../types/common-types';
 
-export function Form() {
+type FormProps = {
+  setReservationInfo: (reservation: Reservation) => void;
+};
+
+export function Form({ setReservationInfo }: FormProps) {
   const [name, setName] = useState('');
   const [partySize, setPartySize] = useState(0);
 
@@ -16,7 +21,19 @@ export function Form() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    createReservation({ name, party_size: partySize });
+    const reservation = await createReservation({
+      name,
+      party_size: partySize,
+    });
+    if (reservation) {
+      setReservationInfo(reservation);
+      clearForm();
+    }
+  };
+
+  const clearForm = () => {
+    setName('');
+    setPartySize(0);
   };
 
   return (

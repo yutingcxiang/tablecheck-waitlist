@@ -5,7 +5,7 @@ RSpec.describe "Api::V1::Reservations", type: :request do
 
   describe "POST /create" do
     context "with valid parameters" do
-      let(:reservation_params) { { reservation: { name: "John Doe", party_size: 2 }}}
+      let(:reservation_params) { { name: "John Doe", party_size: 2 }}
 
       it "returns http success" do
         post "/api/v1/reservations", params: reservation_params
@@ -15,7 +15,7 @@ RSpec.describe "Api::V1::Reservations", type: :request do
     end
 
     context "with invalid parameters" do
-      let(:invalid_reservation_params) { { reservation: { name: "John Doe", party_size: 20 }}}
+      let(:invalid_reservation_params) { { name: "John Doe", party_size: 20 }}
 
       it "returns http failure" do
         post "/api/v1/reservations", params: invalid_reservation_params
@@ -27,7 +27,7 @@ RSpec.describe "Api::V1::Reservations", type: :request do
 
   describe "GET /show" do
     context "with valid id" do
-      let(:reservation_params) { { reservation: { id: reservation.id }}}
+      let(:reservation_params) { { id: reservation.id }}
       it "returns http success" do
         get "/api/v1/reservations", params: reservation_params
         expect(response).to have_http_status(:success)
@@ -37,7 +37,7 @@ RSpec.describe "Api::V1::Reservations", type: :request do
     end
 
     context "with invalid id" do
-      let(:invalid_reservation_params) { { reservation: { id: 20 }}}
+      let(:invalid_reservation_params) {{ id: 20 }}
       it "returns http success" do
         get "/api/v1/reservations", params: invalid_reservation_params
         expect(response). to have_http_status(:not_found)
@@ -47,7 +47,7 @@ RSpec.describe "Api::V1::Reservations", type: :request do
 
   describe "update" do
     context "with valid parameters" do
-      let(:reservation_params) { { reservation: { id: reservation.id,  party_size: 2 }}}
+      let(:reservation_params) { { id: reservation.id,  party_size: 2 }}
       it "returns http success" do
         put "/api/v1/reservations", params: reservation_params
         expect(response).to have_http_status(:success)
@@ -55,7 +55,7 @@ RSpec.describe "Api::V1::Reservations", type: :request do
     end
 
     context "with invalid parameters" do
-      let(:invalid_reservation_params) { { reservation: { id: reservation.id,  party_size: 20 }}}
+      let(:invalid_reservation_params) { { id: reservation.id,  party_size: 20 }}
       it "returns http success" do
         put "/api/v1/reservations", params: invalid_reservation_params
         expect(response). to have_http_status(:unprocessable_entity)
@@ -65,7 +65,7 @@ RSpec.describe "Api::V1::Reservations", type: :request do
 
   describe "destroy" do
     context "with valid id" do
-      let(:reservation_params) { { reservation: { id: reservation.id }}}
+      let(:reservation_params) { { id: reservation.id }}
       it "returns http success" do
         delete "/api/v1/reservations", params: reservation_params
         expect(response).to have_http_status(:success)
@@ -73,7 +73,7 @@ RSpec.describe "Api::V1::Reservations", type: :request do
     end
 
     context "with valid id" do
-      let(:invalid_reservation_params) { { reservation: { id: 20 }}}
+      let(:invalid_reservation_params) { { id: 20 }}
       it "returns http success" do
         delete "/api/v1/reservations", params: invalid_reservation_params
         expect(response). to have_http_status(:not_found)

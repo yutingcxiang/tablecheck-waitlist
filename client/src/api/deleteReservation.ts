@@ -1,8 +1,7 @@
+import { Reservation } from '../types/common-types';
 import { API_HEADERS, API_URL, DEFAULT_ERROR_MESSAGE } from './constants';
 
-export type ReservationDeleteParams = {
-  id: number;
-};
+export type ReservationDeleteParams = Pick<Reservation, 'id'>;
 
 export const deleteReservation = async (params: ReservationDeleteParams) => {
   try {

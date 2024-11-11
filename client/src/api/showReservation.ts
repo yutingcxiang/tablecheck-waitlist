@@ -1,15 +1,14 @@
+import { Reservation } from '../types/common-types';
 import { API_HEADERS, API_URL, DEFAULT_ERROR_MESSAGE } from './constants';
 
-export type ReservationShowParams = {
-  id: number;
-};
+export type ReservationShowParams = Pick<Reservation, 'id'>;
 
 export const showReservation = async (params: ReservationShowParams) => {
+  const { id } = params;
   try {
-    const response = await fetch(API_URL, {
+    const response = await fetch(`${API_URL}?id=${id}`, {
       method: 'GET',
       headers: API_HEADERS,
-      body: JSON.stringify(params),
     });
     const data = await response.json();
     return data;

@@ -1,9 +1,7 @@
+import { Reservation } from '../types/common-types';
 import { API_HEADERS, API_URL, DEFAULT_ERROR_MESSAGE } from './constants';
 
-export type ReservationCreateParams = {
-  name: string;
-  party_size: number;
-};
+export type ReservationCreateParams = Pick<Reservation, 'name' | 'party_size'>;
 
 export const createReservation = async (params: ReservationCreateParams) => {
   try {

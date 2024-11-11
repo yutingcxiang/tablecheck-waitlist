@@ -1,25 +1,31 @@
 import { API_HEADERS, API_URL, DEFAULT_ERROR_MESSAGE } from './constants';
 import { showReservation } from './showReservation';
 
-const params = { id: 5 };
-const invalidParams = { id: 15 };
+const params = { id: 4 };
+const invalidParams = { id: 14 };
 const errorMessage = 'Error';
+const mockReservation = {
+  id: 4,
+  name: "4 Guys",
+  party_size: 4,
+}
 
 describe('showReservation', () => {
   test('should fetch the reservation', () => {
+    const URL = `${API_URL}?id=${params.id}`;
+
     jest
       .spyOn(global, 'fetch')
       .mockImplementation(
         jest.fn(() =>
-          Promise.resolve({ json: () => Promise.resolve({ data: params }) }),
+          Promise.resolve({ json: () => Promise.resolve({ data: mockReservation }) }),
         ) as jest.Mock,
       );
 
     showReservation(params);
 
     expect(fetch).toHaveBeenCalled();
-    expect(fetch).toHaveBeenCalledWith(API_URL, {
-      body: JSON.stringify(params),
+    expect(fetch).toHaveBeenCalledWith(URL, {
       headers: API_HEADERS,
       method: 'GET',
     });
@@ -30,14 +36,14 @@ describe('showReservation', () => {
       .spyOn(global, 'fetch')
       .mockImplementation(
         jest.fn(() =>
-          Promise.resolve({ json: () => Promise.resolve({ data: params }) }),
+          Promise.resolve({ json: () => Promise.resolve({ data: mockReservation }) }),
         ) as jest.Mock,
       );
 
     const result = await showReservation(params);
 
     expect(result).toEqual({
-      data: params,
+      data: mockReservation,
     });
   });
 

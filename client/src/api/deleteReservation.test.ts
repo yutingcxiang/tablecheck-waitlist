@@ -4,6 +4,12 @@ import { deleteReservation } from './deleteReservation';
 const params = { id: 5 };
 const invalidParams = { id: 15 };
 const errorMessage = 'Error';
+const successMessage = 'Success';
+const mockReservation = {
+  id: 5,
+  name: "Sean",
+  party_size: 2,
+}
 
 describe('deleteReservation', () => {
   test('should fetch the reservation', () => {
@@ -11,7 +17,7 @@ describe('deleteReservation', () => {
       .spyOn(global, 'fetch')
       .mockImplementation(
         jest.fn(() =>
-          Promise.resolve({ json: () => Promise.resolve({ data: params }) }),
+          Promise.resolve({ json: () => Promise.resolve({ data: mockReservation}) }),
         ) as jest.Mock,
       );
 
@@ -25,19 +31,19 @@ describe('deleteReservation', () => {
     });
   });
 
-  test('returns the reservation on success', async () => {
+  test('returns a success message on success', async () => {
     jest
       .spyOn(global, 'fetch')
       .mockImplementation(
         jest.fn(() =>
-          Promise.resolve({ json: () => Promise.resolve({ data: params }) }),
+          Promise.resolve({ json: () => Promise.resolve({ message: successMessage }) }),
         ) as jest.Mock,
       );
 
     const result = await deleteReservation(params);
 
     expect(result).toEqual({
-      data: params,
+      message: successMessage,
     });
   });
 
