@@ -1,55 +1,80 @@
 import { useEffect, useState } from 'react';
 import { showReservation } from '../../api/showReservation';
 import { Reservation } from '../../types/common-types';
+import { editReservation } from '../../api/editReservation';
+import { deleteReservation } from '../../api/deleteReservation';
+import { SERVICE_TIME } from '../../constants';
+import ReservationMissing from './ReservationMissing';
+import ReservationDetails from './ReservationDetails';
 
 type ReservationInfoProps = {
-  id?: number;
+  reservation: Reservation | undefined;
+  handleCheckIn: () => void;
 };
 
-export function ReservationInfo({ id }: ReservationInfoProps) {
-  const [data, setData] = useState<Reservation>();
+export function ReservationInfo({
+  reservation,
+  handleCheckIn,
+}: ReservationInfoProps) {
+  const [data, setData] = useState<Reservation | undefined>(reservation);
+  const [isEnabled, setIsEnabled] = useState(false);
+  const [isCheckedIn, setIsCheckedIn] = useState(false);
+
+  const handleOnClick = async () => {
+    // Sets position to be -1 to indicated checked in
+    if (data) {
+      await editReservation({
+        id: data.id,
+        position: -1,
+      });
+
+      setIsCheckedIn(true);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
-      if (id) {
+      if (data) {
         try {
-          const response = showReservation({ id: id });
+          const response = showReservation({ id: data.id });
           setData(await response);
         } catch (error) {
+          clearInterval(interval);
           console.log(error);
         }
       }
     };
-    fetchData();
-  }, [id]);
 
-  const ReservationDetails = ({
-    reservation,
-  }: {
-    reservation: Reservation;
-  }) => {
-    return (
-      <div className="reservation-info" data-testid="reservation-info">
-        <h3>Reservation Details:</h3>
-        <div className="reservation-name">Name: {reservation.name ?? ''}</div>
-        <div className="reservation-party-size">
-          Party Size: {reservation.party_size ?? 0}
-        </div>
-        <div className="reservation-position">
-          Position: {reservation.position ?? 'N/A'}
-        </div>
-      
-      </div>
-    );
-  };
+    const interval = setInterval(() => {
+      if (data && data.id) {
+        fetchData();
+      } else {
+        clearInterval(interval);
+      }
+    }, 1000);
 
-  const ReservationMissing = () => {
-    return (
-      <div className="reservation-missing">
-        <h3>Reservation Not Found</h3>
-      </div>
-    );
-  };
+    return () => clearInterval(interval);
+  }, [data]);
+
+  useEffect(() => {
+    if (isCheckedIn && data) {
+      handleCheckIn();
+
+      // Calculates service time for party
+      const totalServiceTime = data.party_size * SERVICE_TIME;
+
+      // Deletes reservation after party has been serviced
+      setTimeout(async () => {
+        await deleteReservation({
+          id: data.id,
+        });
+      }, totalServiceTime);
+    }
+  }, [isCheckedIn, data, handleCheckIn]);
+
+  useEffect(() => {
+    setIsEnabled(data?.position === 0);
+  }, [data?.position]);
 
   return (
     <div
@@ -59,6 +84,17 @@ export function ReservationInfo({ id }: ReservationInfoProps) {
         <ReservationDetails reservation={data} />
       ) : (
         <ReservationMissing />
+      )}
+      {data && !isCheckedIn && (
+        <div>
+          <button
+            aria-label="Check In"
+            data-testid="check-in-button"
+            disabled={!isEnabled}
+            onClick={handleOnClick}>
+            Check In
+          </button>
+        </div>
       )}
     </div>
   );

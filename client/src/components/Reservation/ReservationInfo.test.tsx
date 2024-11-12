@@ -1,5 +1,7 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import ReservationInfo from './ReservationInfo';
+import userEvent from '@testing-library/user-event';
+import { editReservation } from '../../api/editReservation';
 import { DEFAULT_ERROR_MESSAGE } from '../../api/constants';
 
 const mockReservation = {
@@ -9,38 +11,125 @@ const mockReservation = {
   position: 2,
 };
 
+const mockReadyReservation = {
+  ...mockReservation,
+  position: 0,
+};
+
 let mockShowReservation = Promise.resolve(mockReservation);
+const mockHandleCheckIn = jest.fn();
+
 jest.mock('../../api/showReservation', () => ({
   showReservation: () => mockShowReservation,
 }));
+jest.mock('../../api/editReservation', () => ({
+  editReservation: jest.fn(),
+}));
+jest.mock('../../api/deleteReservation', () => ({
+  deleteReservation: jest.fn(),
+}));
 
 describe('ReservationInfo', () => {
-  const reservationId = mockReservation.id;
-
   describe('when the reservation is found', () => {
-    test('renders reservation info', async () => {
-      render(<ReservationInfo id={reservationId} />);
+    test('renders reservation details', async () => {
+      render(
+        <ReservationInfo
+          reservation={mockReservation}
+          handleCheckIn={mockHandleCheckIn}
+        />,
+      );
 
       expect(
-        await screen.findByText('Reservation Details:'),
+        await screen.findByTestId('reservation-details'),
       ).toBeInTheDocument();
-      expect(await screen.findByText('Name: 4 Guys')).toBeInTheDocument();
-      expect(await screen.findByText('Party Size: 4')).toBeInTheDocument();
-      expect(await screen.findByText('Position: 2')).toBeInTheDocument();
     });
   });
 
   describe('when the reservation is not found', () => {
     test('renders form instructions', async () => {
-      mockShowReservation = Promise.reject({ message: DEFAULT_ERROR_MESSAGE });
-
-      render(<ReservationInfo id={10} />);
+      render(
+        <ReservationInfo
+          reservation={undefined}
+          handleCheckIn={mockHandleCheckIn}
+        />,
+      );
 
       await expect(async () => {
         expect(
           screen.queryByText('Reservation Not Found'),
         ).not.toBeInTheDocument();
       }).rejects.toThrow();
+    });
+  });
+
+  describe('CheckInButton', () => {
+    test('renders a Check In button', () => {
+      render(
+        <ReservationInfo
+          reservation={mockReservation}
+          handleCheckIn={mockHandleCheckIn}
+        />,
+      );
+
+      expect(
+        screen.getByRole('button', { name: 'Check In' }),
+      ).toBeInTheDocument();
+    });
+
+    test('is disabled when position is not 0', () => {
+      render(
+        <ReservationInfo
+          reservation={mockReservation}
+          handleCheckIn={mockHandleCheckIn}
+        />,
+      );
+
+      expect(screen.getByRole('button', { name: 'Check In' })).toHaveAttribute(
+        'disabled',
+      );
+    });
+
+    test('is not disabled when position is 0', () => {
+      render(
+        <ReservationInfo
+          reservation={mockReadyReservation}
+          handleCheckIn={mockHandleCheckIn}
+        />,
+      );
+
+      expect(
+        screen.getByRole('button', { name: 'Check In' }),
+      ).not.toHaveAttribute('disabled');
+    });
+
+    test('handles onClick', async () => {
+      render(
+        <ReservationInfo
+          reservation={mockReadyReservation}
+          handleCheckIn={mockHandleCheckIn}
+        />,
+      );
+
+      const button = screen.getByRole('button', { name: 'Check In' });
+      // Act warning in test
+      // eslint-disable-next-line testing-library/no-unnecessary-act
+      await act(async () => {
+        await userEvent.click(button);
+      });
+
+      await waitFor(() => {
+        expect(editReservation).toHaveBeenCalledWith({
+          id: mockReservation.id,
+          position: -1,
+        });
+      });
+
+      // TODO: Setup jest timers for handling setTimeout
+      // await waitFor(() => {
+      //   expect(deleteReservation).toHaveBeenCalledWith({
+      //     id: mockReservation.id,
+      //   });
+      // });
     });
   });
 });

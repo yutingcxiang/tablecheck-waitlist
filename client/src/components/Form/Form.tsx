@@ -38,8 +38,9 @@ export function Form({ setReservationInfo }: FormProps) {
 
   return (
     <div>
-      <div className="description">
-        Please enter your info below to join our waitlist.
+      <div className="instructions">
+        <div>Unfortunately we are at full capacity right now.</div>
+        <div>Please enter your info below to join our waitlist.</div>
       </div>
       <form
         onSubmit={handleSubmit}

@@ -3,8 +3,8 @@ import { Form } from '../components/Form';
 import { ReservationInfo } from '../components/Reservation';
 import { RestaurantInfo } from '../components/Restaurant';
 import { Reservation } from '../types/common-types';
-import CheckInButton from '../components/CheckIn/CheckInButton';
 import CheckedInScreen from '../components/CheckIn/CheckedInScreen';
+import { useWaitlist } from '../hooks/useWaitList';
 
 export function ReservationPage() {
   const [reservation, setReservation] = useState<Reservation>();
@@ -14,9 +14,10 @@ export function ReservationPage() {
     setReservation(reservation);
   };
 
-  const handleCheckIn = () => {
-    setIsCheckedIn(true);
-  };
+  const handleCheckIn = () => setIsCheckedIn(true);
+  const handleCheckOut = () => setIsCheckedIn(false);
+
+  useWaitlist();
 
   return (
     <div
@@ -27,14 +28,13 @@ export function ReservationPage() {
       {!isCheckedIn && !reservation && (
         <Form setReservationInfo={setReservationInfo} />
       )}
-      {reservation && !isCheckedIn && <ReservationInfo id={reservation?.id} />}
       {reservation && !isCheckedIn && (
-        <CheckInButton
+        <ReservationInfo
           reservation={reservation}
           handleCheckIn={handleCheckIn}
         />
       )}
-      {isCheckedIn && <CheckedInScreen />}
+      {isCheckedIn && <CheckedInScreen handleCheckOut={handleCheckOut} />}
     </div>
   );
 }
