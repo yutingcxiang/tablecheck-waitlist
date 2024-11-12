@@ -50,11 +50,4 @@ RSpec.describe Reservation, type: :model do
       expect(subject.position).to eq(1)
     end
   end
-
-  context "update position" do
-    it "updates the position" do
-      subject.update_position
-      expect(subject.position).to eq(0)
-    end
-  end
 end

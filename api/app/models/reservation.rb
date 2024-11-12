@@ -14,10 +14,6 @@ class Reservation < ApplicationRecord
         self.position ||= Reservation.all.count
     end
 
-    def update_position
-        self.position -= 1
-    end
-
     def update_other_positions
         reservations = Reservation.where("position > ?", self.position)
         reservations.each do |reservation|
