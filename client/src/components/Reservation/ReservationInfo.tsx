@@ -3,7 +3,11 @@ import { showReservation } from '../../api/showReservation';
 import { Reservation } from '../../types/common-types';
 import { editReservation } from '../../api/editReservation';
 import { deleteReservation } from '../../api/deleteReservation';
-import { SERVICE_TIME } from '../../constants';
+import {
+  CHECKIN_GRACE_PERIOD,
+  RESERVATION_POLLING_INTERVAL,
+  SERVICE_TIME,
+} from '../../constants';
 import ReservationMissing from './ReservationMissing';
 import ReservationDetails from './ReservationDetails';
 
@@ -60,13 +64,14 @@ export function ReservationInfo({
       }
     };
 
+    // Polls for reservation data every second
     const interval = setInterval(() => {
       if (data && data.id) {
         fetchData();
       } else {
         clearInterval(interval);
       }
-    }, 1000);
+    }, RESERVATION_POLLING_INTERVAL);
 
     return () => clearInterval(interval);
   }, [data]);
@@ -85,11 +90,25 @@ export function ReservationInfo({
         });
       }, totalServiceTime);
     }
-  }, [isCheckedIn, data, handleCheckIn]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isCheckedIn, data]);
 
   useEffect(() => {
-    setIsEnabled(data?.position === 0);
-  }, [data?.position]);
+    // Enables check in button if party is first in line
+    const isReadyForCheckin = data?.position === 0;
+    if (isReadyForCheckin) {
+      setIsEnabled(true);
+    }
+
+    // Deletes reservation if party does not check in within grace period
+    if (data && data.id && !isCheckedIn) {
+      setTimeout(async () => {
+        await deleteReservation({
+          id: data.id,
+        });
+      }, CHECKIN_GRACE_PERIOD);
+    }
+  }, [data, isCheckedIn]);
 
   return (
     <div
@@ -100,8 +119,7 @@ export function ReservationInfo({
       ) : (
         <ReservationMissing handleNavigation={handleCheckOut} />
       )}
-      <></>
-      {data && !isCheckedIn && (
+      {data && data.id && !isCheckedIn && (
         <div className="grid-container">
           <button
             className="pure-button pure-button-rounded pure-button-primary check-in-button"

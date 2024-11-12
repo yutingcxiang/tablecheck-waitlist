@@ -38,7 +38,7 @@ export function ReservationPage() {
           handleCheckOut={handleCheckOut}
         />
       )}
-      {isCheckedIn && <CheckedInScreen handleCheckOut={handleCheckOut} />}
+      {isCheckedIn && <CheckedInScreen handleNavigation={handleCheckOut} />}
     </div>
   );
 }

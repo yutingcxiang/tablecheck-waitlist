@@ -9,7 +9,7 @@ const mockReservation = {
 };
 
 describe('ReservationDetails', () => {
-  test('renders restaurant description', () => {
+  test('renders reservation description', () => {
     render(<ReservationDetails reservation={mockReservation} />);
 
     expect(screen.getByText("Reservation Details:")).toBeInTheDocument();

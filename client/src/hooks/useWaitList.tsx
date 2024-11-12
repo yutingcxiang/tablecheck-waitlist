@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { editReservation } from '../api/editReservation';
 import { Reservation } from '../types/common-types';
-import { RESTAURANT_CAPACITY } from '../constants';
+import { RESERVATION_LIST_POLLING_INTERVAL, RESTAURANT_CAPACITY } from '../constants';
 import { showAllReservations } from '../api/showAllReservations';
 import { calculateAvailableSeats } from '../utils';
 
@@ -22,12 +22,22 @@ export const useWaitlist = () => {
       }
     };
 
+    // Poll for new reservations every 3 seconds
     const interval = setInterval(() => {
       fetchAllReservations();
-    }, 3000);
+    }, RESERVATION_LIST_POLLING_INTERVAL);
 
     return () => clearInterval(interval);
   }, []);
+
+  const setReadyForCheckIn = async (reservation: Reservation) => {
+    // Set the position of the reservation to 0 to indicate ready for check in
+    try {
+      await editReservation({ ...reservation, position: 0 });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const checkWaitlist = async () => {
     if (waitlist.length === 0 || availableSeats === 0) {
@@ -39,17 +49,13 @@ export const useWaitlist = () => {
     if (nextReservation) {
       const hasAvailableSeats = nextReservation.party_size <= availableSeats;
       if (hasAvailableSeats) {
-        try {
-          // Set the position of the reservation to 0 to indicate ready for check in
-          await editReservation({ ...nextReservation, position: 0 });
-        } catch (error) {
-          console.log(error);
-        }
+        await setReadyForCheckIn(nextReservation);
       }
     }
   };
 
   useEffect(() => {
+    // Check for new reservations and available seats
     const getUpdatedWaitlist = async () => {
       await checkWaitlist();
     };

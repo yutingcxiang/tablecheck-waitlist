@@ -5,14 +5,14 @@ import userEvent from '@testing-library/user-event';
 const mockHandleNavigation = jest.fn();
 
 describe('ReservationMissing', () => {
-  test('renders restaurant description', () => {
+  test('renders missing message', () => {
     render(<ReservationMissing handleNavigation={mockHandleNavigation} />);
 
     expect(screen.getByText('Reservation Not Found')).toBeInTheDocument();
   });
 
-  describe('CheckInButton', () => {
-    test('renders a Check In button', () => {
+  describe('Return to WaitList Button', () => {
+    test('renders a Return to WaitList button', () => {
       render(<ReservationMissing handleNavigation={mockHandleNavigation} />);
 
       expect(
