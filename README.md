@@ -46,8 +46,13 @@ For running tests in watch mode use:
 npm run test:watch
 ```
 
-Api tests:
 To run all the client tests in the docker container, use:
+```
+docker exec tablecheck-waitlist-client-1 npm run test
+```
+
+Api tests:
+To run all the api tests in the docker container, use:
 ```
 docker exec tablecheck-waitlist-api-1 bundle exec rspec
 ```
@@ -66,7 +71,6 @@ The front-end application is a basic single page application that renders a form
 The WaitList Manager full-stack application is created using React, Ruby on Rails, and Postgres. The React files can be found under the `/client` directory while the Ruby on Rails files can be found under the `/api` directory.
 
 The application uses concept of a reservation to refer to a party's position in the queue. The queuing logic is currently managed by a React hook while the individual reservation's positions in the queue are managed with the Reservation model's position field. Reservation data is persisted in the database to support multiple instances.
-
 
 
 ## Additional Improvements and Considerations
