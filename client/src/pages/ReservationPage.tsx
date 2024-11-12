@@ -15,7 +15,10 @@ export function ReservationPage() {
   };
 
   const handleCheckIn = () => setIsCheckedIn(true);
-  const handleCheckOut = () => setIsCheckedIn(false);
+  const handleCheckOut = () => {
+    setIsCheckedIn(false);
+    setReservation(undefined);
+  }
 
   useWaitlist();
 
@@ -32,6 +35,7 @@ export function ReservationPage() {
         <ReservationInfo
           reservation={reservation}
           handleCheckIn={handleCheckIn}
+          handleCheckOut={handleCheckOut}
         />
       )}
       {isCheckedIn && <CheckedInScreen handleCheckOut={handleCheckOut} />}

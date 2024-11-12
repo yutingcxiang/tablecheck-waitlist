@@ -2,7 +2,6 @@ import { act, render, screen, waitFor } from '@testing-library/react';
 import ReservationInfo from './ReservationInfo';
 import userEvent from '@testing-library/user-event';
 import { editReservation } from '../../api/editReservation';
-import { DEFAULT_ERROR_MESSAGE } from '../../api/constants';
 
 const mockReservation = {
   id: 4,
@@ -18,6 +17,7 @@ const mockReadyReservation = {
 
 let mockShowReservation = Promise.resolve(mockReservation);
 const mockHandleCheckIn = jest.fn();
+const mockHandleCheckOut = jest.fn();
 
 jest.mock('../../api/showReservation', () => ({
   showReservation: () => mockShowReservation,
@@ -36,6 +36,7 @@ describe('ReservationInfo', () => {
         <ReservationInfo
           reservation={mockReservation}
           handleCheckIn={mockHandleCheckIn}
+          handleCheckOut={mockHandleCheckOut}
         />,
       );
 
@@ -51,6 +52,7 @@ describe('ReservationInfo', () => {
         <ReservationInfo
           reservation={undefined}
           handleCheckIn={mockHandleCheckIn}
+          handleCheckOut={mockHandleCheckOut}
         />,
       );
 
@@ -68,6 +70,7 @@ describe('ReservationInfo', () => {
         <ReservationInfo
           reservation={mockReservation}
           handleCheckIn={mockHandleCheckIn}
+          handleCheckOut={mockHandleCheckOut}
         />,
       );
 
@@ -81,6 +84,7 @@ describe('ReservationInfo', () => {
         <ReservationInfo
           reservation={mockReservation}
           handleCheckIn={mockHandleCheckIn}
+          handleCheckOut={mockHandleCheckOut}
         />,
       );
 
@@ -94,6 +98,7 @@ describe('ReservationInfo', () => {
         <ReservationInfo
           reservation={mockReadyReservation}
           handleCheckIn={mockHandleCheckIn}
+          handleCheckOut={mockHandleCheckOut}
         />,
       );
 
@@ -107,6 +112,7 @@ describe('ReservationInfo', () => {
         <ReservationInfo
           reservation={mockReadyReservation}
           handleCheckIn={mockHandleCheckIn}
+          handleCheckOut={mockHandleCheckOut}
         />,
       );
 

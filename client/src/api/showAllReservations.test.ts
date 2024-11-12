@@ -1,7 +1,6 @@
 import { API_HEADERS, API_URL, DEFAULT_ERROR_MESSAGE } from './constants';
 import { showAllReservations } from './showAllReservations';
 
-const params = { id: 4 };
 const errorMessage = 'Error';
 const mockReservation = {
   id: 4,

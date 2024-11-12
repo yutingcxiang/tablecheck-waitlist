@@ -1,5 +1,6 @@
 import './App.css';
 import ReservationPage from './pages/ReservationPage';
+require('purecss');
 
 function App() {
   return (

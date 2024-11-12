@@ -22,7 +22,7 @@ export function Form({ setReservationInfo }: FormProps) {
     e.preventDefault();
 
     const reservation = await createReservation({
-      name,
+      name: name,
       party_size: parseInt(partySize),
     });
     if (reservation) {
@@ -42,46 +42,52 @@ export function Form({ setReservationInfo }: FormProps) {
         <div>Unfortunately we are at full capacity right now.</div>
         <div>Please enter your info below to join our waitlist.</div>
       </div>
+
       <form
         onSubmit={handleSubmit}
-        className="waitlist-form"
-        data-testid="waitlist-form">
-        <div>
-          <label htmlFor="name">Name: </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            aria-label="Name"
-            value={name}
-            onChange={handleNameChange}
-            required
-          />
-        </div>
+        className="waitlist-form pure-form pure-form-stacked"
+        data-testid="waitlist-form"
+        >
+        <fieldset>
+          <legend>Contact Information:</legend>
+          <label htmlFor="name">
+            Name:
+            <input
+              type="text"
+              id="name"
+              name="name"
+              aria-label="Name"
+              value={name}
+              onChange={handleNameChange}
+              required
+            />
+          </label>
 
-        <div>
-          <label htmlFor="name">Party Size: </label>
-          <input
-            type="number"
-            id="party-size"
-            name="party-size"
-            aria-label="Party Size"
-            min="1"
-            max="10"
-            value={partySize || ''}
-            onChange={handlePartySizeChange}
-            required
-          />
-        </div>
+          <label htmlFor="party-size">
+            Party Size:
+            <input
+              type="number"
+              id="party-size"
+              name="party-size"
+              aria-label="Party Size"
+              min="1"
+              max="10"
+              value={partySize || ''}
+              onChange={handlePartySizeChange}
+              required
+            />
+          </label>
 
-        <div>
-          <button
-            type="submit"
-            aria-label="Join Waitlist"
-            data-testid="join-waitlist-button">
-            Join WaitList
-          </button>
-        </div>
+          <div>
+            <button
+              className="pure-button pure-button-rounded pure-button-primary join-waitlist-button"
+              type="submit"
+              aria-label="Join Waitlist"
+              data-testid="join-waitlist-button">
+              Join WaitList
+            </button>
+          </div>
+        </fieldset>
       </form>
     </div>
   );

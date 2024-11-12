@@ -90,7 +90,7 @@ describe('Form', () => {
 
       await waitFor(() => {
         expect(createReservation).toHaveBeenCalledWith({
-          name,
+          name: name,
           party_size: parseInt(size),
         });
       });
