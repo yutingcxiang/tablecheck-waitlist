@@ -2,6 +2,7 @@ import { act, render, screen, waitFor } from '@testing-library/react';
 import ReservationInfo from './ReservationInfo';
 import userEvent from '@testing-library/user-event';
 import { editReservation } from '../../api/editReservation';
+import { deleteReservation } from '../../api/deleteReservation';
 
 const mockReservation = {
   id: 4,
@@ -30,6 +31,10 @@ jest.mock('../../api/deleteReservation', () => ({
 }));
 
 describe('ReservationInfo', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  
   describe('when the reservation is found', () => {
     test('renders reservation details', async () => {
       render(
@@ -129,13 +134,29 @@ describe('ReservationInfo', () => {
           position: -1,
         });
       });
+    });
 
-      // TODO: Setup jest timers for handling setTimeout
-      // await waitFor(() => {
-      //   expect(deleteReservation).toHaveBeenCalledWith({
-      //     id: mockReservation.id,
-      //   });
-      // });
+    // TODO: fix this test
+    test.skip('handles deleting', async () => {
+      jest.useFakeTimers();
+
+      render(
+        <ReservationInfo
+          reservation={mockReadyReservation}
+          handleCheckIn={mockHandleCheckIn}
+          handleCheckOut={mockHandleCheckOut}
+        />,
+      );
+
+      act(() => {
+        jest.runAllTimers(); // trigger setTimeout
+      });
+
+      await waitFor(() => {
+        expect(deleteReservation).toHaveBeenCalledWith({
+          id: mockReservation.id,
+        });
+      });
     });
   });
 });
