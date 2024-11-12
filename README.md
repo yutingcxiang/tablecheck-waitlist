@@ -84,5 +84,4 @@ Other suggestions for user experience improvements include:
 
 
 ## Author
-Christine (Yuting) Xiang
-yutingcxiang@gmail.com
+Christine (Yuting) Xiang | yutingcxiang@gmail.com
