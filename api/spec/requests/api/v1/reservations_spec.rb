@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Api::V1::Reservations", type: :request do
-  let!(:reservation) { Reservation.create(name: "Thomas", party_size: 3, position: 2) }
+  let!(:reservation) { Reservation.create(name: "Thomas", party_size: 3) }
 
   describe "GET /index" do
       it "returns http success" do

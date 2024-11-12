@@ -1,6 +1,6 @@
 class Api::V1::ReservationsController < ApplicationController
   def index 
-    reservations = Reservation.all
+    reservations = Reservation.all.order(created_at: :desc)
     render json: reservations
   end
 
@@ -42,6 +42,6 @@ class Api::V1::ReservationsController < ApplicationController
   end
 
   def reservation_params
-    params.permit(:name, :party_size, :position, :id)
+    params.permit(:name, :party_size, :id)
   end
 end
