@@ -47,10 +47,10 @@ group :development, :test do
   gem "rspec-support", "~>3.13.1"
   gem "diff-lcs", "~> 1.5.1"
 
-  gem 'pry', '~> 0.14.2'
+  gem "pry", "~> 0.14.2"
 end
 
 group :test do
   gem "database_cleaner"
-  gem 'database_cleaner-active_record'
+  gem "database_cleaner-active_record"
 end

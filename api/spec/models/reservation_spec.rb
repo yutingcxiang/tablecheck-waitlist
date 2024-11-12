@@ -20,7 +20,7 @@ RSpec.describe Reservation, type: :model do
       expect(subject).to_not be_valid
     end
 
-    
+
     it "is not valid with an empty string for name" do
       subject.name = ""
       expect(subject).to_not be_valid

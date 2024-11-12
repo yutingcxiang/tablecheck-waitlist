@@ -1,5 +1,5 @@
 class Api::V1::ReservationsController < ApplicationController
-  def index 
+  def index
     reservations = Reservation.all.order(created_at: :desc)
     render json: reservations
   end
@@ -17,7 +17,7 @@ class Api::V1::ReservationsController < ApplicationController
     reservation = Reservation.find(reservation_params[:id])
     if reservation
       render json: reservation
-    else 
+    else
       render json: reservation.errors, status: :not_found
     end
   end
@@ -35,7 +35,7 @@ class Api::V1::ReservationsController < ApplicationController
   def destroy
     reservation = Reservation.find(reservation_params[:id])
     if reservation.destroy
-      render json: { message: 'Reservation deleted!' }
+      render json: { message: "Reservation deleted!" }
     else
       render json: reservation.errors, status: :not_found
     end

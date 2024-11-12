@@ -1,4 +1,4 @@
-require 'pry'
+require "pry"
 class Reservation < ApplicationRecord
     before_save :set_position
     before_destroy :update_other_positions
@@ -10,7 +10,7 @@ class Reservation < ApplicationRecord
     validates_presence_of :name, allow_empty: false
     validates :party_size, numericality: { less_than_or_equal_to: MAX_CAPACITY, greater_than: MIN_CAPACITY,  only_integer: true }
 
-    def set_position 
+    def set_position
         self.position ||= Reservation.all.count
     end
 
